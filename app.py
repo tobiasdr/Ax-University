@@ -16,7 +16,9 @@ data = [{
   "Status": "degree in progress",
   "Start date": "02/10/2017",
   "End date": "25/06/2021",
-  "End result": "62%"
+  "End result": "62%",
+  "DID": "0xfcf7e63bd53344322r4432s201154cb42d08e6",
+  "Permissions": "-"
 },
 {
   "Name": "Peter Wallace",
@@ -26,7 +28,9 @@ data = [{
   "Status": "degree in progress",
   "Start date": "02/10/2017",
   "End date": "23/06/2020",
-  "End result": "71%"
+  "End result": "71%",
+  "DID": "0xf2be23f0cdndd23442e201154cb42d08ed54965",
+  "Permissions": "-"
 }, {
   "Name": "Sirvan Almasi",
   "Date of Birth": "12.05.1995",
@@ -35,7 +39,9 @@ data = [{
   "Status": "graduated",
   "Start date": "02/10/2013",
   "End date": "25/06/2016",
-  "End result": "68%"
+  "End result": "68%",
+  "DID": "0xf2beae25b23f0ccdd234410354cb42d08ed54981",
+  "Permissions": "-"
 }
 ]
 
@@ -287,7 +293,18 @@ columns = [
       "field": "End result",
       "title": "End result",
       "sortable": True,
+    },
+    {
+      "field": "DID",
+      "title": "DID",
+      "sortable": True,
+    },
+    {
+      "field": "Permissions",
+      "title": "Permissions",
+      "sortable": True,
     }
+
 
 ]
 
@@ -326,7 +343,7 @@ def chngPermission():
     verPubKey = w3.eth.account.recoverHash(msgHash, signature=req_data['sig'])
     #verPubKey = "0x627306090abab3a6e1400e9345bc60c78a8bef57"
 
-    
+
 
     # set pre-funded account as sender
     w3.eth.defaultAccount = w3.eth.accounts[1]
@@ -347,8 +364,13 @@ def chngPermission():
         key = DIDContract.functions.getKey(i).call()
         print(key[1])
         if str(key[1])==str(verPubKey):
+            #change Permissions
+            #add receiver DID (hospital) to sirvan's Permissions
+            data[2]['Permissions'] = req_data['recDID']
             return "SUCCESS"
     return "FAIL"
+
+
 
 
 
